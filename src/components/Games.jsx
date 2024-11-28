@@ -1,10 +1,10 @@
 //
 
 import Game from "./Game";
-import IconButton from "./shared/IconButton";
+import IconButton from "./Shared/IconButton";
 import { categories } from "../helpers/constants";
-import Search from "./shared/Search";
-import Pill from "./shared/Pill";
+import Search from "./Shared/Search";
+import Pill from "./Shared/Pill";
 import Loader from "./Shared/Loader";
 import { useState, useEffect } from "react";
 
