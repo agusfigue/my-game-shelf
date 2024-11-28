@@ -54,7 +54,7 @@ const Games = () => {
   return (
     <section className="p-4 bg-blue-dark">
       <header className="mt-2 mb-4 flex flex-wrap items-center">
-        <IconButton icon="menu" onClick="#"></IconButton>
+        <IconButton icon="menu" onClick={() => {}}></IconButton>
         <img
           src="/logo.png"
           alt="MyGameShelf Logo"
@@ -62,11 +62,7 @@ const Games = () => {
         />
       </header>
       <div>
-        <Search
-          placeholder="Buscar..."
-          value=""
-          onChange="{(e) => setSearch(e.target.value)}"
-        />
+        <Search placeholder="Buscar..." value="" onChange={() => {}} />
         <section className="flex gap-1 w-full overflow-y-auto no-scrollbar my-3">
           {categories.map((category, i) => (
             <Pill
