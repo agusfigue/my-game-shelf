@@ -5,8 +5,18 @@ const useGamesStore = create((set) => ({
     allGames: [],
     favorites: JSON.parse(localStorage.getItem("favorites")) || [],
     discarded: JSON.parse(localStorage.getItem("discarded")) || [],
+    lists: [{ id: 1, name: "My First List", description: "This is my first list.", games: [] }],
     currentIndex: 0,
     filters: { search: "", category: "all", rating: null },
+    customLists: JSON.parse(localStorage.getItem("customLists")) || [
+        {
+            id: 1,
+            name: "My First List by Default",
+            description: "This is my first list. You can add games here, change my name or just delete me.",
+            items: [],
+        },
+    ],
+
 
     // Establecer juegos visibles
     setGames: (games) => set({ games }),
@@ -66,7 +76,6 @@ const useGamesStore = create((set) => ({
             console.error("Error fetching games:", error);
         }
     },
-
 
     // Aplicar filtros
     applyFilters: () =>
@@ -141,24 +150,48 @@ const useGamesStore = create((set) => ({
             };
         }),
 
-    // ... Otros estados y funciones
-    customLists: [
-        {
-            name: "My First List",
-            description: "This is my first list.",
-            games: [], // Juegos en la lista
-        },
-    ],
+    // Método para actualizar favoritos
+    setFavorites: (updatedFavorites) =>
+        set(() => {
+            localStorage.setItem("favorites", JSON.stringify(updatedFavorites)); // Guardar en localStorage
+            return { favorites: updatedFavorites };
+        }),
 
-    // Agregar juego a una lista personalizada
+    // Método para actualizar descartados
+    setDiscarded: (updatedDiscarded) =>
+        set(() => {
+            localStorage.setItem("discarded", JSON.stringify(updatedDiscarded)); // Guardar en localStorage
+            return { discarded: updatedDiscarded };
+        }),
+
+    // Método para actualizar listas
+    setCustomLists: (updatedLists) =>
+        set(() => {
+            localStorage.setItem("customLists", JSON.stringify(updatedLists)); // Guardar en localStorage
+            return { customLists: updatedLists };
+        }),
+
+    addList: (newList) =>
+        set((state) => {
+            const updatedLists = [
+                ...state.customLists,
+                { ...newList, id: Date.now() }, // Asegurar ID único con marca de tiempo
+            ];
+            localStorage.setItem("customLists", JSON.stringify(updatedLists));
+            return { customLists: updatedLists };
+        }),
+
     addToList: (listName, game) =>
-        set((state) => ({
-            customLists: state.customLists.map((list) =>
+        set((state) => {
+            const updatedLists = state.customLists.map((list) =>
                 list.name === listName
-                    ? { ...list, games: [...list.games, game] }
+                    ? { ...list, items: [...list.items, game] }
                     : list
-            ),
-        })),
+            );
+            localStorage.setItem("customLists", JSON.stringify(updatedLists)); // Guardar cambios en localStorage
+            return { customLists: updatedLists };
+        }),
+
 }));
 
 export default useGamesStore;

@@ -1,4 +1,4 @@
-import Pill from "./Shared/Pill";
+import PillFilters from "./Shared/PillFilters";
 
 const Filters = ({
   genres = [], // Valor por defecto para evitar errores
@@ -23,7 +23,7 @@ const Filters = ({
         <div className="flex gap-2 overflow-x-auto no-scrollbar">
           {genres.length > 0 ? (
             genres.map((category, i) => (
-              <Pill
+              <PillFilters
                 key={i}
                 label={category}
                 onClick={() => setSelectedCategory(category)}
@@ -39,9 +39,9 @@ const Filters = ({
       {/* Filtro por estrellas */}
       <div>
         <h4 className="text-white font-semibold mb-2">Rating</h4>
-        <div className="flex gap-2 overflow-x-auto no-scrollbar">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar mb-5">
           {ratingOptions.map((option, i) => (
-            <Pill
+            <PillFilters
               key={i}
               label={option.label}
               onClick={() => setSelectedRating(option.range)}

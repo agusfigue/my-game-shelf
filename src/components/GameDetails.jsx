@@ -1,13 +1,11 @@
-//
-
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Loader from "./Shared/Loader";
 import Message from "./Shared/Message";
+import BackButton from "./Shared/BackButton";
 
 const GameDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [gameDetails, setGameDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -41,13 +39,9 @@ const GameDetails = () => {
 
   return (
     <section className="mt-12 mb-12 min-h-[calc(100vh-6rem)] p-4 bg-secondary-dark text-white">
-      <button
-        onClick={() => navigate("/")}
-        className="mb-4 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-md"
-      >
-        Volver al listado
-      </button>
-      <h1 className="text-3xl font-bold mb-4">{gameDetails.name}</h1>
+      {/* Botón de regreso al swiping */}
+      <BackButton to="/" />
+      <h2 className="text-white text-xl font-bold mb-4">{gameDetails.name}</h2>
       <img
         src={gameDetails.background_image}
         alt={gameDetails.name}
