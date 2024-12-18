@@ -1,90 +1,147 @@
-//
-
-import Game from "./Game";
-import IconButton from "./Shared/IconButton";
-import { categories } from "../helpers/constants";
-import Search from "./Shared/Search";
-import Pill from "./Shared/Pill";
+import { useEffect, useState } from "react";
+import useGamesStore from "./stores/useGamesStore";
+import GameCardSwipe from "./GameCardSwipe";
 import Loader from "./Shared/Loader";
-import { useState, useEffect } from "react";
+import Message from "./Shared/Message";
+import IconButton from "./Shared/IconButton";
+import Filters from "./Filters";
+import IconButtonSwipe from "./Shared/IconButtonSwipe";
+import Modal from "./Shared/Modal";
 
 const Games = () => {
-  const apiKey = "fb576c6794d14ea39e30edc82b8561a4";
-  const apiUrl = `https://api.rawg.io/api/games?key=${apiKey}&page_size=50`;
-  const [games, setGames] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    games,
+    allGames,
+    fetchGames,
+    addFavorite,
+    discardGame,
+    filters,
+    applyFilters,
+  } = useGamesStore();
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetch(apiUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        setGames(data.results);
-      })
-      .catch(() => {
-        console.log("error");
-        //setError(true);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [apiUrl]);
-
-  /*
-  const [noticias, setNoticias] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`https://dummyjson.com/posts/search?q=${search}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setNoticias(data);
-      })
-      .catch(() => {
-        setError(true);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [search]); 
-  */
+    const loadGames = async () => {
+      if (allGames.length === 0) {
+        setIsLoading(true);
+        try {
+          await fetchGames();
+        } catch (error) {
+          setError(true);
+          console.log(error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadGames();
+  }, [allGames, fetchGames]);
+
+  const handleFavorite = () => {
+    const currentGame = games[0];
+    if (currentGame) {
+      addFavorite(currentGame);
+      applyFilters();
+    }
+  };
+
+  const handleDiscard = () => {
+    const currentGame = games[0];
+    if (currentGame) {
+      discardGame(currentGame);
+      applyFilters();
+    }
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
 
   return (
-    <section className="p-4 bg-blue-dark">
-      <header className="mt-2 mb-4 flex flex-wrap items-center">
-        <IconButton icon="menu" onClick={() => {}}></IconButton>
-        <img
-          src="/logo.png"
-          alt="MyGameShelf Logo"
-          className="w-auto h-6 ml-4"
+    <section className="mt-12 mb-12 min-h-[calc(100vh-6rem)] bg-secondary-dark p-4">
+      <header className="flex justify-between items-center mb-4">
+        <h2 className="text-white">Swipe games ({games.length})</h2>
+        <IconButton
+          icon="filter_alt"
+          onClick={() => setShowFilters((prev) => !prev)}
         />
       </header>
-      <div>
-        <Search placeholder="Buscar..." value="" onChange={() => {}} />
-        <section className="flex gap-1 w-full overflow-y-auto no-scrollbar my-3">
-          {categories.map((category, i) => (
-            <Pill
-              key={i}
-              label={category}
-              /*selected={selectedCategory === category}*/
-              onClick={() => {}}
-            />
-          ))}
-        </section>
-      </div>
+
+      {showFilters && (
+        <div className="mb-4 p-4 bg-gray-800 rounded-md">
+          <Filters
+            genres={
+              [
+                /* Tus géneros */
+              ]
+            }
+            setSelectedCategory={(category) => {
+              useGamesStore.getState().filters.category = category;
+              applyFilters();
+            }}
+            selectedCategory={filters.category}
+            setSelectedRating={(rating) => {
+              useGamesStore.getState().filters.rating = rating;
+              applyFilters();
+            }}
+            selectedRating={filters.rating}
+          />
+          <button
+            className="mt-4 w-full py-2 bg-primary text-white rounded-md"
+            onClick={() => setShowFilters(false)}
+          >
+            HIDE FILTERS
+          </button>
+        </div>
+      )}
+
       {isLoading && <Loader />}
       <div className="flex flex-wrap gap-4">
-        {games?.map((game) => (
-          <Game
-            key={game.id}
-            id={game.id}
-            title={game.name}
-            category={game.genres[0].name}
+        {games?.length > 0 && (
+          <GameCardSwipe
+            key={games[0]?.id}
+            id={games[0]?.id}
+            title={games[0]?.name}
+            category={games[0]?.genres[0]?.name}
+            img={games[0]?.background_image}
           />
-        ))}
+        )}
       </div>
+
+      {!isLoading && games?.length === 0 && (
+        <Message variant="info" message="No games found" />
+      )}
+      {error && <Message variant="error" message="Error loading games" />}
+
+      <div className="flex justify-around mt-4">
+        <IconButtonSwipe
+          icon="thumb_down"
+          color="bg-red-500"
+          onClick={handleDiscard}
+        />
+        <IconButtonSwipe
+          icon="favorite"
+          color="bg-cyan-400"
+          onClick={handleFavorite}
+        />
+        <IconButtonSwipe
+          icon="playlist_add"
+          color="bg-primary-default"
+          onClick={handleOpenModal} // Abrir el modal
+        />
+      </div>
+
+      {/* Modal para agregar a listas */}
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        currentGame={games[0]} // Pasar el juego actual
+      />
     </section>
   );
 };

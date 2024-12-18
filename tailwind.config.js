@@ -4,12 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        blue: {
-          default: "#02121D",
-          dark: "#01080D"
+        primary: {
+          default: "#00FF5E"
         },
-        green: {
-          default: "#00FF00"
+        secondary: {
+          default: "#222D47",
+          dark: "#1C212C"
         },
         yellow: {
           default: "#FFFB00"

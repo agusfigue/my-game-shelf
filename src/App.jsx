@@ -14,18 +14,26 @@ import viteLogo from '/vite.svg'
 //
 
 import "./App.css";
-//import { DetalleJuego } from "./components/DetalleJuego";
 import Games from "./components/Games";
+import GameDetails from "./components/GameDetails";
+import Favorites from "./components/Favorites";
+import Menu from "./components/Menu";
+import Header from "./components/Header";
 import { Routes, Route } from "react-router-dom";
+import Lists from "./components/Lists";
 
 function App() {
   return (
     <>
+      <Header />
       <Routes>
         <Route path="/" element={<Games />} />
-        {/* <Route path="/juego/:id" element={<DetalleJuego />} /> */}
+        <Route path="/game/:id" element={<GameDetails />} />
+        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/lists" element={<Lists />} />
         <Route path="*" element={<p>404 Not Found</p>} />
       </Routes>
+      <Menu />
     </>
   );
 }

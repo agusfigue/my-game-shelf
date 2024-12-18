@@ -1,14 +1,12 @@
 //
 
-const Pill = (props) => {
-  const { label, onClick, selected } = props;
-
+const Pill = ({ label, onClick, selected }) => {
   return (
     <button
-      className={`rounded-lg py-1 px-3 text-sm font-medium capitalize ${
+      className={`inline-flex items-center justify-center rounded-lg px-3 text-sm font-medium capitalize h-10 min-w-[80px] max-w-[120px] overflow-hidden whitespace-nowrap ${
         selected
-          ? "bg-green-default text-white"
-          : "bg-blue-dark text-gray-500 border-solid border-blue-default border-2"
+          ? "bg-primary-default text-black"
+          : "bg-secondary-default text-white"
       }`}
       onClick={onClick}
     >
