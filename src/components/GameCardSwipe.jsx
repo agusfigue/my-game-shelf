@@ -7,9 +7,13 @@ const GameCardSwipe = (props) => {
 
   return (
     <div className="relative w-full max-w-screen-lg mx-auto rounded-xl overflow-hidden shadow-lg">
-      <img src={img} alt={title} className="w-full h-96 object-cover" />
+      <img
+        src={img}
+        alt={title}
+        className="w-full sm:h-60 md:h-96 object-cover"
+      />
 
-      <div className="absolute top-3 right-4">
+      <div className="absolute top-3 right-4 z-10">
         <Pill
           label={`★ ${rating || "N/A"}`}
           color="bg-yellow-300"
