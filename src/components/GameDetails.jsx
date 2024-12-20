@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Loader from "./Shared/Loader";
 import Message from "./Shared/Message";
 import BackButton from "./Shared/BackButton";
@@ -11,12 +11,19 @@ import IconButtonSwipe from "./Shared/IconButtonSwipe";
 const GameDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [gameDetails, setGameDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { discardGame, applyFilters } = useGamesStore();
+
+  // Determinar si se deben ocultar los botones de acción
+  const hideActions = location.state?.hideActions || false;
+
+  // Determinar la ruta de retroceso
+  const backTo = location.state?.backTo || "/";
 
   const apiKey = "fb576c6794d14ea39e30edc82b8561a4";
 
@@ -31,7 +38,7 @@ const GameDetails = () => {
         setGameDetails(data);
       } catch (error) {
         setError(true);
-        console.log(error);
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -42,9 +49,8 @@ const GameDetails = () => {
 
   const handleDiscard = () => {
     if (gameDetails) {
-      discardGame(gameDetails); // Descartar el juego
-      applyFilters(); // Aplicar filtros para actualizar la lista
-
+      discardGame(gameDetails);
+      applyFilters();
       navigate("/", {
         state: {
           message: `${gameDetails.name} has been discarded.`,
@@ -63,7 +69,7 @@ const GameDetails = () => {
   const handleGameAddedToList = (listName) => {
     navigate("/", {
       state: {
-        message: `${gameDetails.name} has been added to the list "${listName}" succesfully.`,
+        message: `${gameDetails.name} has been added to the list "${listName}" successfully.`,
         type: "success",
       },
     });
@@ -77,7 +83,6 @@ const GameDetails = () => {
 
   return (
     <section className="min-h-[calc(100vh-6rem)] bg-secondary-dark text-white pb-20 pt-14 relative">
-      {/* Imagen de fondo con degradado */}
       <div className="relative">
         <img
           src={gameDetails.background_image}
@@ -86,7 +91,6 @@ const GameDetails = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
 
-        {/* Calificación en la esquina superior derecha */}
         <div className="absolute top-4 right-4">
           <Pill
             label={`★ ${gameDetails.rating || "N/A"}`}
@@ -95,7 +99,6 @@ const GameDetails = () => {
           />
         </div>
 
-        {/* Título y géneros */}
         <div className="absolute bottom-0 left-0 right-0 p-4">
           <h2 className="text-2xl font-bold truncate">{gameDetails.name}</h2>
           <div className="flex flex-wrap gap-2 mt-2">
@@ -110,17 +113,13 @@ const GameDetails = () => {
           </div>
         </div>
 
-        {/* Botón de regreso */}
-        <BackButton to="/" className="absolute top-4 left-4" />
+        <BackButton to={backTo} className="absolute top-4 left-4" />
       </div>
 
-      {/* Descripción y botones */}
       <div className="p-4">
         <p className="mb-2">
           <strong>Date of launch:</strong> {gameDetails.released}
         </p>
-
-        {/* Descripción con "See more" */}
         <p className="text-sm text-gray-300">
           {isDescriptionExpanded
             ? gameDetails.description_raw
@@ -136,21 +135,73 @@ const GameDetails = () => {
         )}
       </div>
 
-      {/* Botones de acción */}
-      <div className="px-2 flex justify-around text-secondary-dark">
-        <IconButtonSwipe
-          icon="thumb_down"
-          color="bg-red-500"
-          onClick={handleDiscard}
-        />
-        <IconButtonSwipe
-          icon="playlist_add"
-          color="bg-primary-default"
-          onClick={handleAddToList}
-        />
+      {!hideActions && (
+        <div className="px-2 flex justify-around text-secondary-dark">
+          <IconButtonSwipe
+            icon="thumb_down"
+            color="bg-red-500"
+            onClick={handleDiscard}
+          />
+          <IconButtonSwipe
+            icon="playlist_add"
+            color="bg-primary-default"
+            onClick={handleAddToList}
+          />
+        </div>
+      )}
+
+      {gameDetails.metacritic && (
+        <div className="px-4 py-2">
+          <h3 className="text-lg font-bold">Metacritic Score</h3>
+          <div
+            className={`text-white px-4 py-2 rounded-lg ${
+              gameDetails.metacritic >= 75
+                ? "bg-green-600"
+                : gameDetails.metacritic >= 50
+                ? "bg-yellow-500"
+                : "bg-red-600"
+            }`}
+          >
+            {gameDetails.metacritic}
+          </div>
+        </div>
+      )}
+
+      {gameDetails.playtime && (
+        <div className="px-4 py-2">
+          <h3 className="text-lg font-bold">Playtime</h3>
+          <p>{gameDetails.playtime} hours</p>
+        </div>
+      )}
+
+      <div className="px-4 py-2">
+        <h3 className="text-lg font-bold">Developers</h3>
+        <p>
+          {gameDetails.developers?.map((dev) => dev.name).join(", ") || "N/A"}
+        </p>
       </div>
 
-      {/* Modal para agregar a listas */}
+      <div className="px-4 py-2">
+        <h3 className="text-lg font-bold">Publishers</h3>
+        <p>
+          {gameDetails.publishers?.map((pub) => pub.name).join(", ") || "N/A"}
+        </p>
+      </div>
+
+      <div className="px-4 py-2">
+        <h3 className="text-lg font-bold mb-2">Tags</h3>
+        <div className="flex flex-wrap gap-2">
+          {gameDetails.tags?.map((tag) => (
+            <Pill
+              key={tag.id}
+              label={tag.name}
+              color="bg-gray-700"
+              textColor="text-white"
+            />
+          ))}
+        </div>
+      </div>
+
       <AddToListModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}

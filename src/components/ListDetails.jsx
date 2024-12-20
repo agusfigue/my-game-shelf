@@ -91,6 +91,11 @@ const ListDetails = () => {
             <GameCard
               key={game.id}
               game={game}
+              onClick={() =>
+                navigate(`/game/${game.id}`, {
+                  state: { hideActions: true, backTo: `/lists/${listName}` }, // Ruta corregida
+                })
+              }
               onRemove={() => handleRemoveGame(game)}
             />
           ))
