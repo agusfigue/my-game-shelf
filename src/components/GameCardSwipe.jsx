@@ -7,11 +7,7 @@ const GameCardSwipe = (props) => {
 
   return (
     <div className="relative w-full mx-auto rounded-xl overflow-hidden shadow-lg">
-      <img
-        src={img}
-        alt={title}
-        className="w-full h-72 md:h-72 lg:h-96 object-cover"
-      />
+      <img src={img} alt={title} className="w-full h-80 lg:h-96 object-cover" />
 
       <div className="absolute top-3 right-4 z-10">
         <Pill

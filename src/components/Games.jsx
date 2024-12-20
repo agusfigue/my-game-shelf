@@ -73,7 +73,7 @@ const Games = () => {
 
   return (
     <section className="flex justify-center min-h-screen bg-secondary-dark">
-      <div className="w-full max-w-screen-lg mt-12 mb-14 p-4 bg-secondary-dark rounded-lg">
+      <div className="w-full max-w-screen-lg mt-12 mb-2 p-4 bg-secondary-dark rounded-lg">
         {fixedMessage && (
           <Message
             variant={fixedMessage.type}
