@@ -1,7 +1,7 @@
 import { useState } from "react";
 import IconButtonText from "./Shared/IconButtonText";
 import IconButton from "./Shared/IconButton";
-import useGamesStore from "./stores/useGamesStore";
+import useGamesStore from "../stores/useGamesStore";
 import { useNavigate } from "react-router-dom";
 
 const EditListModal = ({ isOpen, onClose, list, onSaveSuccess }) => {
@@ -24,7 +24,6 @@ const EditListModal = ({ isOpen, onClose, list, onSaveSuccess }) => {
     localStorage.setItem("customLists", JSON.stringify(updatedLists));
     navigate(`/lists/${encodeURIComponent(listName)}`);
 
-    // Notificar éxito al componente padre
     if (onSaveSuccess) {
       onSaveSuccess("Changes saved successfully.");
     }

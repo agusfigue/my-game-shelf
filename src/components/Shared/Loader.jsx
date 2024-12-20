@@ -1,5 +1,3 @@
-//
-
 const Loader = () => {
   return (
     <div className="absolute top-12 bottom-12 left-0 right-0 bg-secondary-dark flex items-center justify-center z-40">

@@ -1,5 +1,3 @@
-//
-
 const Search = (props) => {
   const { placeholder, onChange, value } = props;
   return (

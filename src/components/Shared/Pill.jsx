@@ -1,5 +1,3 @@
-//
-
 const Pill = ({ label, color, textColor }) => {
   return (
     <button

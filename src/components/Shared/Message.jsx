@@ -18,10 +18,10 @@ const Message = ({ variant = "info", message, isFixed = false, onClose }) => {
     if (isFixed) {
       const timer = setTimeout(() => {
         setIsVisible(false);
-        if (onClose) onClose(); // Llama a la función onClose si está definida
-      }, 3000); // 3 segundos
+        if (onClose) onClose();
+      }, 3000);
 
-      return () => clearTimeout(timer); // Limpia el temporizador
+      return () => clearTimeout(timer);
     }
   }, [isFixed, onClose]);
 

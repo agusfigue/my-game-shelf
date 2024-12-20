@@ -1,5 +1,4 @@
 const ListCardModal = ({ list, onClick }) => {
-  // Obtener las imágenes de los primeros cuatro juegos
   const gameImages = list.items
     ?.slice(0, 4)
     ?.map((game) => game.background_image || game.img || "");
@@ -9,7 +8,6 @@ const ListCardModal = ({ list, onClick }) => {
       className="flex items-center p-3 my-2 bg-secondary-default rounded-lg cursor-pointer hover:bg-primary text-white"
       onClick={onClick}
     >
-      {/* Cuadrícula de imágenes */}
       <div className="grid grid-cols-2 gap-1 w-12 h-12 mr-4">
         {Array.from({ length: 4 }).map((_, index) =>
           gameImages[index] ? (

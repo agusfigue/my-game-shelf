@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useGamesStore from "./stores/useGamesStore";
+import useGamesStore from "../stores/useGamesStore";
 import GameCardSwipe from "./GameCardSwipe";
 import Loader from "./Shared/Loader";
 import Message from "./Shared/Message";
@@ -155,18 +155,21 @@ const Games = () => {
           }}
         />
 
+        {/* Botones de acción con disabled si no hay juegos */}
         <div className="flex justify-between mt-4 text-secondary-dark">
           <IconButtonSwipe
             icon="thumb_down"
             color="bg-red-500"
             text="Discard"
             onClick={handleDiscard}
+            disabled={games.length === 0}
           />
           <IconButtonSwipe
             icon="favorite"
             color="bg-primary-default"
             text="Add to List"
             onClick={handleOpenModal}
+            disabled={games.length === 0}
           />
         </div>
       </div>

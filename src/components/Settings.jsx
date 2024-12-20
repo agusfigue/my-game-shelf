@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useGamesStore from "./stores/useGamesStore";
+import useGamesStore from "../stores/useGamesStore";
 import IconButtonText from "./Shared/IconButtonText";
 import Message from "./Shared/Message";
 
@@ -25,7 +25,7 @@ const Settings = () => {
 
     setCustomLists(defaultList);
     localStorage.setItem("customLists", JSON.stringify(defaultList));
-    applyFilters(); // Asegura que los juegos vuelvan a ser visibles
+    applyFilters();
 
     showMessage(
       "All lists have been reset to the default Favorites list.",
@@ -36,7 +36,7 @@ const Settings = () => {
   const handleResetDiscarded = () => {
     setDiscarded([]);
     localStorage.setItem("discarded", JSON.stringify([]));
-    applyFilters(); // Asegura que los juegos descartados sean visibles
+    applyFilters();
 
     showMessage(
       "All discarded games have been reset and are now visible in the swipe.",

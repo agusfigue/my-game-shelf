@@ -4,7 +4,7 @@ import Loader from "./Shared/Loader";
 import Message from "./Shared/Message";
 import BackButton from "./Shared/BackButton";
 import Pill from "./Shared/Pill";
-import useGamesStore from "./stores/useGamesStore";
+import useGamesStore from "../stores/useGamesStore";
 import AddToListModal from "./Shared/AddToListModal";
 import IconButtonSwipe from "./Shared/IconButtonSwipe";
 
@@ -19,10 +19,8 @@ const GameDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const { discardGame, applyFilters } = useGamesStore();
 
-  // Determinar si se deben ocultar los botones de acción
   const hideActions = location.state?.hideActions || false;
 
-  // Determinar la ruta de retroceso
   const backTo = location.state?.backTo || "/";
 
   const apiKey = "fb576c6794d14ea39e30edc82b8561a4";

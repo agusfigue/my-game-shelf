@@ -21,13 +21,13 @@ const useGamesStore = create((set) => ({
 
     setCustomLists: (updatedLists) =>
         set(() => {
-            localStorage.setItem("customLists", JSON.stringify(updatedLists)); // Actualiza el localStorage
+            localStorage.setItem("customLists", JSON.stringify(updatedLists));
             return { customLists: updatedLists };
         }),
 
     setDiscarded: (updatedDiscarded) =>
         set(() => {
-            localStorage.setItem("discarded", JSON.stringify(updatedDiscarded)); // Actualiza el localStorage
+            localStorage.setItem("discarded", JSON.stringify(updatedDiscarded));
             return { discarded: updatedDiscarded };
         }),
 
@@ -141,7 +141,7 @@ const useGamesStore = create((set) => ({
 
             return {
                 customLists: updatedLists,
-                games: state.games.filter((g) => g.id !== game.id), // Elimina el juego del Swipe
+                games: state.games.filter((g) => g.id !== game.id),
             };
         }),
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import useGamesStore from "./stores/useGamesStore";
+import useGamesStore from "../stores/useGamesStore";
 import BackButton from "./Shared/BackButton";
 import IconButton from "./Shared/IconButton";
 import ModalListOptions from "./ModalListOptions";
@@ -31,7 +31,6 @@ const ListDetails = () => {
     );
     setCustomLists(updatedLists);
 
-    // Navegar y pasar el estado del mensaje
     navigate("/lists", {
       state: {
         message: `Your list "${listName}" has been deleted.`,
@@ -68,7 +67,6 @@ const ListDetails = () => {
       type: "success",
     });
 
-    // Ocultar el mensaje después de 3 segundos
     setTimeout(() => {
       setBottomMessage({ isVisible: false, message: "", type: "info" });
     }, 3000);
@@ -93,7 +91,7 @@ const ListDetails = () => {
               game={game}
               onClick={() =>
                 navigate(`/game/${game.id}`, {
-                  state: { hideActions: true, backTo: `/lists/${listName}` }, // Ruta corregida
+                  state: { hideActions: true, backTo: `/lists/${listName}` },
                 })
               }
               onRemove={() => handleRemoveGame(game)}
@@ -116,7 +114,7 @@ const ListDetails = () => {
         isOpen={showEditModal}
         onClose={() => setShowEditModal(false)}
         list={selectedList}
-        onSaveSuccess={handleSaveSuccess} // Pasar el manejador de éxito
+        onSaveSuccess={handleSaveSuccess}
       />
       {bottomMessage.isVisible && (
         <Message

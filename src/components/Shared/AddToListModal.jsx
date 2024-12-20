@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useGamesStore from "../stores/useGamesStore";
+import useGamesStore from "../../stores/useGamesStore";
 import IconButtonText from "./IconButtonText";
 import ListCardModal from "./ListCardModal";
 import CreateListModal from "./CreateListModal";
@@ -14,7 +14,6 @@ const AddToListModal = ({ isOpen, onClose, currentGame, onGameAdded }) => {
     if (addToList && typeof addToList === "function") {
       addToList(listName, currentGame);
 
-      // Notificar al componente padre que el juego fue agregado
       if (onGameAdded) {
         onGameAdded(
           `${currentGame.name} has been added to the list "${listName}" successfully.`
@@ -63,7 +62,7 @@ const AddToListModal = ({ isOpen, onClose, currentGame, onGameAdded }) => {
                   <Message
                     variant="info"
                     message="No lists available. Create a new list to start adding games!"
-                    isFixed={false} // No fijo, permanece visible
+                    isFixed={false}
                   />
                 </>
               )}

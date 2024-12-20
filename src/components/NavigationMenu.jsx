@@ -4,12 +4,10 @@ const NavigationMenu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Función para determinar si un path está activo
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full h-14 bg-secondary-dark flex justify-around items-center border-t-2 border-secondary-default z-10">
-      {/* Botón Home */}
+    <nav className="fixed bottom-0 left-0 w-full h-14 bg-secondary-dark flex justify-around items-center border-t-2 border-secondary-default z-2">
       <button
         onClick={() => navigate("/")}
         className={`flex flex-col items-center justify-center ${
@@ -20,7 +18,6 @@ const NavigationMenu = () => {
         <span className="text-xs">Home</span>
       </button>
 
-      {/* Botón Lists */}
       <button
         onClick={() => navigate("/lists")}
         className={`flex flex-col items-center justify-center ${

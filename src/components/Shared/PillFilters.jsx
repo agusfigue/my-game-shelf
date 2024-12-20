@@ -1,5 +1,3 @@
-//
-
 const PillFilters = ({ label, onClick, selected }) => {
   return (
     <button

@@ -5,7 +5,7 @@ const GameCard = ({ game, onRemove, onClick }) => {
   return (
     <div
       className="flex w-full items-center p-4 bg-secondary-default text-white rounded-xl relative cursor-pointer"
-      onClick={onClick} // Navegar al detalle del juego
+      onClick={onClick}
     >
       <img
         src={game.background_image}
@@ -34,7 +34,7 @@ const GameCard = ({ game, onRemove, onClick }) => {
           icon="delete"
           className="absolute top-2 right-2"
           onClick={(e) => {
-            e.stopPropagation(); // Evitar que se dispare el evento onClick del contenedor
+            e.stopPropagation();
             onRemove();
           }}
         />

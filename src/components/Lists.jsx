@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import useGamesStore from "./stores/useGamesStore";
+import useGamesStore from "../stores/useGamesStore";
 import ListCard from "./Shared/ListCard";
 import Message from "./Shared/Message";
 import Search from "./Shared/Search";
@@ -19,8 +19,8 @@ const Lists = () => {
   useEffect(() => {
     if (messageFromState) {
       const timer = setTimeout(() => {
-        setMessageFromState(null); // Ocultar el mensaje después de 3 segundos
-        navigate(".", { replace: true }); // Reemplazar el estado en la URL
+        setMessageFromState(null);
+        navigate(".", { replace: true });
       }, 3000);
 
       return () => clearTimeout(timer);
