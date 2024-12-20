@@ -20,7 +20,6 @@ const GameDetails = () => {
   const { discardGame, applyFilters } = useGamesStore();
 
   const hideActions = location.state?.hideActions || false;
-
   const backTo = location.state?.backTo || "/";
 
   const apiKey = "fb576c6794d14ea39e30edc82b8561a4";
@@ -80,132 +79,137 @@ const GameDetails = () => {
     return <Message variant="info" message="No hay datos disponibles" />;
 
   return (
-    <section className="min-h-[calc(100vh-6rem)] bg-secondary-dark text-white pb-20 pt-14 relative">
-      <div className="relative">
-        <img
-          src={gameDetails.background_image}
-          alt={gameDetails.name}
-          className="w-full h-[50vh] object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-
-        <div className="absolute top-4 right-4">
-          <Pill
-            label={`★ ${gameDetails.rating || "N/A"}`}
-            color="bg-yellow-300"
-            textColor="text-black"
+    <section className="flex justify-center items-start min-h-screen bg-secondary-dark text-white">
+      <div className="w-full max-w-screen-lg bg-secondary-dark rounded-lg mb-14 mt-14">
+        <div className="relative">
+          <img
+            src={gameDetails.background_image}
+            alt={gameDetails.name}
+            className="w-full h-[50vh] object-cover"
           />
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <h2 className="text-2xl font-bold truncate">{gameDetails.name}</h2>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {gameDetails.genres?.map((genre) => (
-              <Pill
-                key={genre.id}
-                label={genre.name}
-                color="bg-cyan-400"
-                textColor="text-black"
-              />
-            ))}
+          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
+          <div className="absolute top-4 left-4">
+            <BackButton to={backTo} />
           </div>
-        </div>
-
-        <BackButton to={backTo} className="absolute top-4 left-4" />
-      </div>
-
-      <div className="p-4">
-        <p className="mb-2">
-          <strong>Date of launch:</strong> {gameDetails.released}
-        </p>
-        <p className="text-sm text-gray-300">
-          {isDescriptionExpanded
-            ? gameDetails.description_raw
-            : `${gameDetails.description_raw?.substring(0, 200)}...`}
-        </p>
-        {gameDetails.description_raw?.length > 200 && (
-          <button
-            onClick={() => setIsDescriptionExpanded((prev) => !prev)}
-            className="text-primary mt-2"
-          >
-            {isDescriptionExpanded ? "See less" : "See more"}
-          </button>
-        )}
-      </div>
-
-      {!hideActions && (
-        <div className="px-2 flex justify-around text-secondary-dark">
-          <IconButtonSwipe
-            icon="thumb_down"
-            color="bg-red-500"
-            onClick={handleDiscard}
-          />
-          <IconButtonSwipe
-            icon="playlist_add"
-            color="bg-primary-default"
-            onClick={handleAddToList}
-          />
-        </div>
-      )}
-
-      {gameDetails.metacritic && (
-        <div className="px-4 py-2">
-          <h3 className="text-lg font-bold">Metacritic Score</h3>
-          <div
-            className={`text-white px-4 py-2 rounded-lg ${
-              gameDetails.metacritic >= 75
-                ? "bg-green-600"
-                : gameDetails.metacritic >= 50
-                ? "bg-yellow-500"
-                : "bg-red-600"
-            }`}
-          >
-            {gameDetails.metacritic}
-          </div>
-        </div>
-      )}
-
-      {gameDetails.playtime && (
-        <div className="px-4 py-2">
-          <h3 className="text-lg font-bold">Playtime</h3>
-          <p>{gameDetails.playtime} hours</p>
-        </div>
-      )}
-
-      <div className="px-4 py-2">
-        <h3 className="text-lg font-bold">Developers</h3>
-        <p>
-          {gameDetails.developers?.map((dev) => dev.name).join(", ") || "N/A"}
-        </p>
-      </div>
-
-      <div className="px-4 py-2">
-        <h3 className="text-lg font-bold">Publishers</h3>
-        <p>
-          {gameDetails.publishers?.map((pub) => pub.name).join(", ") || "N/A"}
-        </p>
-      </div>
-
-      <div className="px-4 py-2">
-        <h3 className="text-lg font-bold mb-2">Tags</h3>
-        <div className="flex flex-wrap gap-2">
-          {gameDetails.tags?.map((tag) => (
+          <div className="absolute top-4 right-4">
             <Pill
-              key={tag.id}
-              label={tag.name}
-              color="bg-gray-700"
-              textColor="text-white"
+              label={`★ ${gameDetails.rating || "N/A"}`}
+              color="bg-yellow-300"
+              textColor="text-black"
             />
-          ))}
+          </div>
+          <div className="absolute bottom-4 left-4">
+            <h2 className="text-2xl font-bold truncate">{gameDetails.name}</h2>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {gameDetails.genres?.map((genre) => (
+                <Pill
+                  key={genre.id}
+                  label={genre.name}
+                  color="bg-cyan-400"
+                  textColor="text-black"
+                />
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
 
-      <AddToListModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        currentGame={gameDetails}
-        onGameAdded={handleGameAddedToList}
-      />
+        <div className="p-4">
+          <p className="mb-2">
+            <strong>Date of launch:</strong> {gameDetails.released}
+          </p>
+          <p className="text-sm text-gray-300">
+            {isDescriptionExpanded
+              ? gameDetails.description_raw
+              : `${gameDetails.description_raw?.substring(0, 200)}...`}
+          </p>
+          {gameDetails.description_raw?.length > 200 && (
+            <button
+              onClick={() => setIsDescriptionExpanded((prev) => !prev)}
+              className="text-primary mt-2"
+            >
+              {isDescriptionExpanded ? "See less" : "See more"}
+            </button>
+          )}
+        </div>
+
+        {!hideActions && (
+          <div className="flex justify-around px-4 pb-4">
+            <IconButtonSwipe
+              icon="thumb_down"
+              color="bg-red-500"
+              onClick={handleDiscard}
+            />
+            <IconButtonSwipe
+              icon="playlist_add"
+              color="bg-primary-default"
+              onClick={handleAddToList}
+            />
+          </div>
+        )}
+
+        <div className="p-4">
+          {gameDetails.metacritic && (
+            <div className="mb-4">
+              <h3 className="text-lg font-bold">Metacritic Score</h3>
+              <div
+                className={`text-white px-4 py-2 rounded-lg ${
+                  gameDetails.metacritic >= 75
+                    ? "bg-green-600"
+                    : gameDetails.metacritic >= 50
+                    ? "bg-yellow-500"
+                    : "bg-red-600"
+                }`}
+              >
+                {gameDetails.metacritic}
+              </div>
+            </div>
+          )}
+
+          {gameDetails.playtime && (
+            <div className="mb-4">
+              <h3 className="text-lg font-bold">Playtime</h3>
+              <p>{gameDetails.playtime} hours</p>
+            </div>
+          )}
+
+          <div className="mb-4">
+            <h3 className="text-lg font-bold">Developers</h3>
+            <p>
+              {gameDetails.developers?.map((dev) => dev.name).join(", ") ||
+                "N/A"}
+            </p>
+          </div>
+
+          <div className="mb-4">
+            <h3 className="text-lg font-bold">Publishers</h3>
+            <p>
+              {gameDetails.publishers?.map((pub) => pub.name).join(", ") ||
+                "N/A"}
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-bold mb-2">Tags</h3>
+            <div className="flex flex-wrap gap-2">
+              {gameDetails.tags?.map((tag) => (
+                <Pill
+                  key={tag.id}
+                  label={tag.name}
+                  color="bg-gray-700"
+                  textColor="text-white"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <AddToListModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          currentGame={gameDetails}
+          onGameAdded={handleGameAddedToList}
+        />
+      </div>
     </section>
   );
 };

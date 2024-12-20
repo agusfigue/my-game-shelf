@@ -73,56 +73,62 @@ const ListDetails = () => {
   };
 
   return (
-    <section className="mt-12 mb-12 min-h-[calc(100vh-6rem)] p-4 bg-secondary-dark text-white">
-      <BackButton to="/lists" />
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-white text-xl font-bold">{selectedList?.name}</h2>
-        <IconButton
-          icon="more_vert"
-          onClick={() => setShowOptionsModal(true)}
-        />
-      </div>
-      <p className="mb-4 text-gray-400">{selectedList?.description}</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <section className="flex justify-center min-h-screen bg-secondary-dark">
+      <div className="w-full max-w-screen-lg mt-12 mb-14 px-4 md:px-8 p-4 bg-secondary-dark text-white">
+        <BackButton to="/lists" />
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-white text-2xl font-bold">
+            {selectedList?.name}
+          </h2>
+          <IconButton
+            icon="more_vert"
+            onClick={() => setShowOptionsModal(true)}
+          />
+        </div>
+        <p className="mb-7 text-gray-400">{selectedList?.description}</p>
         {selectedList?.items.length > 0 ? (
-          selectedList.items.map((game) => (
-            <GameCard
-              key={game.id}
-              game={game}
-              onClick={() =>
-                navigate(`/game/${game.id}`, {
-                  state: { hideActions: true, backTo: `/lists/${listName}` },
-                })
-              }
-              onRemove={() => handleRemoveGame(game)}
-            />
-          ))
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            {selectedList.items.map((game) => (
+              <GameCard
+                key={game.id}
+                game={game}
+                onClick={() =>
+                  navigate(`/game/${game.id}`, {
+                    state: { hideActions: true, backTo: `/lists/${listName}` },
+                  })
+                }
+                onRemove={() => handleRemoveGame(game)}
+              />
+            ))}
+          </div>
         ) : (
-          <Message variant="info" message="No games in this list." />
+          <div className="w-full mt-8">
+            <Message variant="info" message="No games in this list." />
+          </div>
+        )}
+        <ModalListOptions
+          isOpen={showOptionsModal}
+          onClose={() => setShowOptionsModal(false)}
+          onEdit={() => {
+            setShowOptionsModal(false);
+            setShowEditModal(true);
+          }}
+          onDelete={handleDeleteList}
+        />
+        <EditListModal
+          isOpen={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          list={selectedList}
+          onSaveSuccess={handleSaveSuccess}
+        />
+        {bottomMessage.isVisible && (
+          <Message
+            variant={bottomMessage.type}
+            message={bottomMessage.message}
+            isFixed={true}
+          />
         )}
       </div>
-      <ModalListOptions
-        isOpen={showOptionsModal}
-        onClose={() => setShowOptionsModal(false)}
-        onEdit={() => {
-          setShowOptionsModal(false);
-          setShowEditModal(true);
-        }}
-        onDelete={handleDeleteList}
-      />
-      <EditListModal
-        isOpen={showEditModal}
-        onClose={() => setShowEditModal(false)}
-        list={selectedList}
-        onSaveSuccess={handleSaveSuccess}
-      />
-      {bottomMessage.isVisible && (
-        <Message
-          variant={bottomMessage.type}
-          message={bottomMessage.message}
-          isFixed={true}
-        />
-      )}
     </section>
   );
 };

@@ -37,51 +37,57 @@ const Lists = () => {
   );
 
   return (
-    <section className="mt-12 mb-14 min-h-[calc(100vh-6rem)] bg-secondary-dark p-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-white text-xl font-bold">Your Lists</h2>
-        <IconButton icon="add" onClick={() => setIsModalOpen(true)} />
-      </div>
-      <Search
-        placeholder="Search for a list..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <section className="flex justify-center min-h-screen bg-secondary-dark">
+      <div className="w-full max-w-screen-lg mt-12 mb-14 px-4 md:px-8 p-4 bg-secondary-dark">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-white text-2xl font-bold">Your Lists</h2>
+          <IconButton icon="add" onClick={() => setIsModalOpen(true)} />
+        </div>
+        <Search
+          placeholder="Search for a list..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+
         {filteredLists.length > 0 ? (
-          filteredLists.map((list, index) => (
-            <Link
-              to={`/lists/${encodeURIComponent(list.name)}`}
-              key={list.id || `list-${index}`}
-            >
-              <ListCard list={list} />
-            </Link>
-          ))
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {filteredLists.map((list, index) => (
+              <Link
+                to={`/lists/${encodeURIComponent(list.name)}`}
+                key={list.id || `list-${index}`}
+              >
+                <ListCard list={list} />
+              </Link>
+            ))}
+          </div>
         ) : (
+          <div className="w-full mt-4">
+            <Message
+              variant="info"
+              isFixed={false}
+              message={
+                searchQuery
+                  ? "No lists match your search."
+                  : "You haven't created any lists yet."
+              }
+            />
+          </div>
+        )}
+
+        <CreateListModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onListCreated={handleListCreated}
+        />
+
+        {messageFromState && (
           <Message
-            variant="info"
-            message={
-              searchQuery
-                ? "No lists match your search."
-                : "You haven't created any lists yet."
-            }
+            variant={messageFromState.type}
+            message={messageFromState.message}
+            isFixed={true}
           />
         )}
       </div>
-
-      <CreateListModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onListCreated={handleListCreated}
-      />
-
-      {messageFromState && (
-        <Message
-          variant={messageFromState.type}
-          message={messageFromState.message}
-          isFixed={true}
-        />
-      )}
     </section>
   );
 };

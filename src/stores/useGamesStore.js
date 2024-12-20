@@ -4,15 +4,7 @@ const useGamesStore = create((set) => ({
     games: [],
     allGames: [],
     discarded: JSON.parse(localStorage.getItem("discarded")) || [],
-    customLists: JSON.parse(localStorage.getItem("customLists")) || [
-        {
-            id: 1,
-            name: "Favorites",
-            description:
-                "This is my first list. You can add games here, change my name or just delete me.",
-            items: [],
-        },
-    ],
+    customLists: JSON.parse(localStorage.getItem("customLists")) || [], // Cambiado para no cargar listas por defecto
     filters: {
         search: "",
         category: "all",
@@ -61,9 +53,7 @@ const useGamesStore = create((set) => ({
 
                     const matchesCategory =
                         category === "all" ||
-                        game.genres.some((genre) =>
-                            genre.name.toLowerCase() === category
-                        );
+                        game.genres.some((genre) => genre.name.toLowerCase() === category);
 
                     const matchesRating =
                         rating === null ||
@@ -96,9 +86,7 @@ const useGamesStore = create((set) => ({
 
                 const matchesCategory =
                     category === "all" ||
-                    game.genres.some((genre) =>
-                        genre.name.toLowerCase() === category
-                    );
+                    game.genres.some((genre) => genre.name.toLowerCase() === category);
 
                 const matchesRating =
                     rating === null ||

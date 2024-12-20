@@ -13,29 +13,19 @@ const Settings = () => {
   };
 
   const handleResetLists = () => {
-    const defaultList = [
-      {
-        id: Date.now(),
-        name: "Favorites",
-        description:
-          "This is your Favorites list. You can add games here, rename it, or delete it.",
-        items: [],
-      },
-    ];
-
-    setCustomLists(defaultList);
-    localStorage.setItem("customLists", JSON.stringify(defaultList));
+    setCustomLists([]); // Ahora resetea a una lista vacía
+    localStorage.removeItem("customLists"); // Elimina customLists de localStorage
     applyFilters();
 
     showMessage(
-      "All lists have been reset to the default Favorites list.",
+      "All lists have been reset. No lists are currently loaded.",
       "warning"
     );
   };
 
   const handleResetDiscarded = () => {
     setDiscarded([]);
-    localStorage.setItem("discarded", JSON.stringify([]));
+    localStorage.removeItem("discarded");
     applyFilters();
 
     showMessage(
@@ -45,29 +35,33 @@ const Settings = () => {
   };
 
   return (
-    <section className="mt-14 mb-14 min-h-[calc(100vh-6rem)] bg-secondary-dark p-4 text-white">
-      <h1 className="text-xl font-bold mb-6">Settings</h1>
-      <div className="space-y-4">
-        <IconButtonText
-          icon="restart_alt"
-          text="Reset all lists"
-          color="bg-white"
-          onClick={handleResetLists}
-        />
-        <IconButtonText
-          icon="delete"
-          text="Reset discarded games"
-          color="bg-red-500"
-          onClick={handleResetDiscarded}
-        />
+    <section className="flex justify-center items-start min-h-screen bg-secondary-dark text-white p-4">
+      <div className="w-full max-w-screen-lg bg-secondary-dark rounded-lg mb-14 mt-14">
+        <h1 className="text-white text-2xl font-bold mb-6">Settings</h1>
+        <div className="space-y-4">
+          <IconButtonText
+            icon="restart_alt"
+            text="Reset all lists"
+            color="bg-white"
+            onClick={handleResetLists}
+          />
+          <IconButtonText
+            icon="delete"
+            text="Reset discarded games"
+            color="bg-red-500"
+            onClick={handleResetDiscarded}
+          />
+        </div>
+        {message.text && (
+          <div className="mt-6">
+            <Message
+              message={message.text}
+              variant={message.variant}
+              isFixed={true}
+            />
+          </div>
+        )}
       </div>
-      {message.text && (
-        <Message
-          message={message.text}
-          variant={message.variant}
-          isFixed={true}
-        />
-      )}
     </section>
   );
 };

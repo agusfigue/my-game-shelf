@@ -34,39 +34,43 @@ const Filters = ({
 
       <div className="mb-4">
         <h4 className="text-white font-semibold mb-2">Genres</h4>
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-          {genres.length > 0 ? (
-            genres.map((category, i) => (
-              <PillFilters
-                key={i}
-                label={category}
-                onClick={() => setSelectedCategory(category)}
-                selected={category === selectedCategory}
-              />
-            ))
-          ) : (
-            <p className="text-gray-400">No genres found</p>
-          )}
+        <div className="flex gap-2 overflow-hidden relative">
+          <div className="flex gap-2 overflow-x-scroll no-scrollbar whitespace-nowrap">
+            {genres.length > 0 ? (
+              genres.map((category, i) => (
+                <PillFilters
+                  key={i}
+                  label={category}
+                  onClick={() => setSelectedCategory(category)}
+                  selected={category === selectedCategory}
+                />
+              ))
+            ) : (
+              <p className="text-gray-400">No genres found</p>
+            )}
+          </div>
         </div>
       </div>
 
       <div className="mb-4">
         <h4 className="text-white font-semibold mb-2">Rating</h4>
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide whitespace-nowrap">
-          {ratingOptions.map((option, i) => (
-            <PillFilters
-              key={i}
-              label={option.label}
-              onClick={() => setSelectedRating(option.range)}
-              selected={
-                selectedRating === null
-                  ? option.range === null
-                  : option.range &&
-                    selectedRating?.[0] === option.range[0] &&
-                    selectedRating?.[1] === option.range[1]
-              }
-            />
-          ))}
+        <div className="flex gap-2 overflow-hidden relative">
+          <div className="flex gap-2 overflow-x-scroll no-scrollbar whitespace-nowrap">
+            {ratingOptions.map((option, i) => (
+              <PillFilters
+                key={i}
+                label={option.label}
+                onClick={() => setSelectedRating(option.range)}
+                selected={
+                  selectedRating === null
+                    ? option.range === null
+                    : option.range &&
+                      selectedRating?.[0] === option.range[0] &&
+                      selectedRating?.[1] === option.range[1]
+                }
+              />
+            ))}
+          </div>
         </div>
       </div>
 

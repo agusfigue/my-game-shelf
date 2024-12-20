@@ -72,18 +72,18 @@ const Games = () => {
   };
 
   return (
-    <section className="flex justify-center items-center mt-12 mb-12">
-      {fixedMessage && (
-        <Message
-          variant={fixedMessage.type}
-          message={fixedMessage.message}
-          isFixed
-        />
-      )}
+    <section className="flex justify-center min-h-screen bg-secondary-dark">
+      <div className="w-full max-w-screen-lg mt-12 mb-14 p-4 bg-secondary-dark rounded-lg">
+        {fixedMessage && (
+          <Message
+            variant={fixedMessage.type}
+            message={fixedMessage.message}
+            isFixed
+          />
+        )}
 
-      <div className="w-full max-w-md bg-secondary-dark p-4 rounded-lg">
-        <header className="flex w-full justify-between items-center mb-3">
-          <h2 className="text-white text-xl font-bold">
+        <header className="flex w-full justify-between items-center mb-4">
+          <h2 className="text-white text-2xl font-bold">
             Swipe games ({games.length})
           </h2>
           <IconButton
@@ -121,7 +121,8 @@ const Games = () => {
         )}
 
         {isLoading && <Loader />}
-        <div className="flex flex-wrap gap-4">
+
+        <div className="flex flex-wrap gap-4 justify-center">
           {games?.length > 0 && (
             <GameCardSwipe
               key={games[0]?.id}
@@ -155,7 +156,6 @@ const Games = () => {
           }}
         />
 
-        {/* Botones de acción con disabled si no hay juegos */}
         <div className="flex justify-between mt-4 text-secondary-dark">
           <IconButtonSwipe
             icon="thumb_down"
@@ -173,14 +173,6 @@ const Games = () => {
           />
         </div>
       </div>
-
-      {fixedMessage && (
-        <Message
-          variant={fixedMessage.type}
-          message={fixedMessage.message}
-          isFixed
-        />
-      )}
     </section>
   );
 };
