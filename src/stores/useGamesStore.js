@@ -30,7 +30,7 @@ const useGamesStore = create((set) => ({
 
     fetchGames: async () => {
         const apiKey = "fb576c6794d14ea39e30edc82b8561a4";
-        const totalPages = 20;
+        const totalPages = 10;
         const pageSize = 50;
         let allFetchedGames = [];
 
