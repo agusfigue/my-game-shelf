@@ -2,7 +2,6 @@ import "./App.css";
 import Games from "./components/Games";
 import GameDetails from "./components/GameDetails";
 import NavigationMenu from "./components/NavigationMenu";
-import Header from "./components/Header";
 import Lists from "./components/Lists";
 import ListDetails from "./components/ListDetails";
 import Settings from "./components/Settings";
@@ -11,7 +10,6 @@ import { Routes, Route } from "react-router-dom";
 function App() {
   return (
     <>
-      <Header />
       <Routes>
         <Route path="/" element={<Games />} />
         <Route path="/game/:id" element={<GameDetails />} />

@@ -87,8 +87,8 @@ const GameDetails = () => {
             alt={gameDetails.name}
             className="w-full h-[50vh] object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-          <div className="absolute top-4 left-4">
+          <div className="absolute z-2 inset-0 bg-gradient-to-t from-black to-transparent" />
+          <div className="absolute z-3 top-4 left-4">
             <BackButton to={backTo} />
           </div>
           <div className="absolute top-4 right-4">

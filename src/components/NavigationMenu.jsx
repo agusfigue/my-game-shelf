@@ -7,7 +7,10 @@ const NavigationMenu = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full h-14 bg-secondary-dark flex justify-around items-center border-t-2 border-secondary-default z-2">
+    <nav className="fixed bottom-0 left-0 w-full h-14 bg-secondary-dark flex justify-around items-center border-t-2 border-secondary-default z-15">
+      <header className="fixed top-0 left-0 w-full h-14 flex items-center justify-center bg-secondary-dark border-b-2 border-secondary-default z-2">
+        <img src="/logo.png" alt="App Logo" className="h-6 w-auto" />
+      </header>
       <button
         onClick={() => navigate("/")}
         className={`flex flex-col items-center justify-center ${

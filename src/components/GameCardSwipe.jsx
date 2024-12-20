@@ -10,7 +10,7 @@ const GameCardSwipe = (props) => {
       <img
         src={img}
         alt={title}
-        className="w-full sm:max-h-72 md:max-h-96 object-cover"
+        className="w-full sm:h-72 lg:h-96 object-cover"
       />
 
       <div className="absolute top-3 right-4 z-10">
