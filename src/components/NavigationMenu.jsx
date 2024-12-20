@@ -1,38 +1,46 @@
-//
-
 import { useLocation, useNavigate } from "react-router-dom";
-import IconButton from "./Shared/IconButton";
 
 const NavigationMenu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Función para determinar si un path está activo
   const isActive = (path) => location.pathname === path;
-  const getIconStyle = (active) =>
-    active ? "text-primary" : "text-white opacity-70";
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full h-12 bg-secondary-dark flex justify-around items-center border-t-2 border-secondary-default z-10">
-      <IconButton
-        icon="check_box_outline_blank"
+    <nav className="fixed bottom-0 left-0 w-full h-14 bg-secondary-dark flex justify-around items-center border-t-2 border-secondary-default z-10">
+      {/* Botón Home */}
+      <button
         onClick={() => navigate("/")}
-        className={getIconStyle(isActive("/"))}
-      />
-      <IconButton
-        icon="list"
+        className={`flex flex-col items-center justify-center ${
+          isActive("/") ? "text-white" : "text-white opacity-50"
+        }`}
+      >
+        <span className="material-icons text-xl">home</span>
+        <span className="text-xs">Home</span>
+      </button>
+
+      {/* Botón Lists */}
+      <button
         onClick={() => navigate("/lists")}
-        className={getIconStyle(isActive("/lists"))}
-      />
-      <IconButton
-        icon="favorite"
-        onClick={() => navigate("/favorites")}
-        className={getIconStyle(isActive("/favorites"))}
-      />
-      <IconButton
-        icon="settings"
+        className={`flex flex-col items-center justify-center ${
+          isActive("/lists") ? "text-white" : "text-white opacity-50"
+        }`}
+      >
+        <span className="material-icons text-xl">list</span>
+        <span className="text-xs">Lists</span>
+      </button>
+
+      {/* Botón Settings */}
+      <button
         onClick={() => navigate("/settings")}
-        className={getIconStyle(isActive("/settings"))}
-      />
+        className={`flex flex-col items-center justify-center ${
+          isActive("/settings") ? "text-white" : "text-white opacity-50"
+        }`}
+      >
+        <span className="material-icons text-xl">settings</span>
+        <span className="text-xs">Settings</span>
+      </button>
     </nav>
   );
 };

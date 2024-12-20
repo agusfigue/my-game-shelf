@@ -1,10 +1,9 @@
 //
 
-const Pill = ({ label, onClick }) => {
+const Pill = ({ label, color, textColor }) => {
   return (
     <button
-      className={`bg-primary-default text-secondary-dark inline-flex items-center justify-center rounded-lg px-2 py-1 text-xs font-medium capitalize whitespace-nowrap`}
-      onClick={onClick}
+      className={`${color} ${textColor} inline-flex items-center justify-center rounded-lg px-2 py-1 text-xs font-medium capitalize whitespace-nowrap`}
     >
       {label}
     </button>

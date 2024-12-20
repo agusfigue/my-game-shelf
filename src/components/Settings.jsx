@@ -1,81 +1,73 @@
+import { useState } from "react";
 import useGamesStore from "./stores/useGamesStore";
 import IconButtonText from "./Shared/IconButtonText";
+import Message from "./Shared/Message";
 
 const Settings = () => {
-  const {
-    setCustomLists,
-    setFavorites,
-    setDiscarded,
-    setGames,
-    allGames,
-    fetchGames,
-  } = useGamesStore();
+  const { setCustomLists, setDiscarded, applyFilters } = useGamesStore();
+  const [message, setMessage] = useState({ text: "", variant: "" });
 
-  // Resetear las listas y favoritos al estado inicial
-  const handleResetListsAndFavorites = () => {
-    const defaultList = [
-      {
-        id: Date.now(), // ID único
-        name: "My First List by Default",
-        description:
-          "This is my first list. You can add games here, change my name or just delete me.",
-        items: [],
-      },
-    ];
-
-    setCustomLists(defaultList);
-    setFavorites([]);
-    localStorage.setItem("customLists", JSON.stringify(defaultList));
-    localStorage.setItem("favorites", JSON.stringify([]));
-
-    alert("Lists and favorites have been reset to default.");
+  const showMessage = (text, variant) => {
+    setMessage({ text, variant });
+    setTimeout(() => setMessage({ text: "", variant: "" }), 3000);
   };
 
-  // Resetear juegos y listas (swipe desde cero)
-  const handleResetSwipe = async () => {
+  const handleResetLists = () => {
     const defaultList = [
       {
-        id: Date.now(), // ID único
-        name: "My First List by Default",
+        id: Date.now(),
+        name: "Favorites",
         description:
-          "This is my first list. You can add games here, change my name or just delete me.",
+          "This is your Favorites list. You can add games here, rename it, or delete it.",
         items: [],
       },
     ];
 
     setCustomLists(defaultList);
-    setFavorites([]);
-    setDiscarded([]);
     localStorage.setItem("customLists", JSON.stringify(defaultList));
-    localStorage.setItem("favorites", JSON.stringify([]));
+    applyFilters(); // Asegura que los juegos vuelvan a ser visibles
+
+    showMessage(
+      "All lists have been reset to the default Favorites list.",
+      "warning"
+    );
+  };
+
+  const handleResetDiscarded = () => {
+    setDiscarded([]);
     localStorage.setItem("discarded", JSON.stringify([]));
+    applyFilters(); // Asegura que los juegos descartados sean visibles
 
-    await fetchGames();
-    setGames(allGames);
-
-    alert("All data has been reset. Swipe from the beginning!");
+    showMessage(
+      "All discarded games have been reset and are now visible in the swipe.",
+      "warning"
+    );
   };
 
   return (
     <section className="mt-12 mb-12 min-h-[calc(100vh-6rem)] bg-secondary-dark p-4 text-white">
       <h1 className="text-2xl font-bold mb-6">Settings</h1>
       <div className="space-y-4">
-        {/* Botón para resetear listas y favoritos */}
         <IconButtonText
           icon="restart_alt"
-          text="Reset Lists and Favorites"
-          color="bg-red-500"
-          onClick={handleResetListsAndFavorites}
+          text="Reset all lists"
+          color="bg-white"
+          onClick={handleResetLists}
         />
-
-        {/* Botón para resetear el swipe */}
         <IconButtonText
-          icon="refresh"
-          text="Reset Swipe"
-          color="bg-cyan-500"
-          onClick={handleResetSwipe}
+          icon="delete"
+          text="Reset discarded games"
+          color="bg-red-500"
+          onClick={handleResetDiscarded}
         />
       </div>
+      {message.text && (
+        <Message
+          message={message.text}
+          variant={message.variant}
+          isFixed={true}
+        />
+      )}
     </section>
   );
 };

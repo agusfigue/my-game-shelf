@@ -1,16 +1,39 @@
-const Message = (props) => {
-  const { variant, message } = props;
+import { useEffect, useState } from "react";
 
-  const variantsStyles = {
-    success: "text-center bg-green-100 border-green-300 text-green-700",
-    error: "text-center bg-red-100 border-red-300 text-red-700",
-    warning: "text-center bg-yellow-100 border-yellow-300 text-yellow-700",
-    info: "text-center bg-secondary-default text-white border",
+const Message = ({ variant = "info", message, isFixed = false, onClose }) => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  const variantClasses = {
+    info: "bg-secondary-default text-white",
+    success: "bg-primary-default text-black",
+    warning: "bg-white text-secondary-dark",
+    error: "bg-red-500 text-white",
   };
 
+  const fixedStyles = isFixed
+    ? "fixed bottom-4 left-0 right-0 flex justify-center z-50 mx-4"
+    : "";
+
+  useEffect(() => {
+    if (isFixed) {
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+        if (onClose) onClose(); // Llama a la función onClose si está definida
+      }, 3000); // 3 segundos
+
+      return () => clearTimeout(timer); // Limpia el temporizador
+    }
+  }, [isFixed, onClose]);
+
+  if (!isVisible) return null;
+
   return (
-    <div>
-      <div className={`rounded-md p-4 ${variantsStyles[variant]}`}>
+    <div className={`${fixedStyles}`}>
+      <div
+        className={`w-full max-w-md p-4 rounded-lg shadow-lg ${
+          variantClasses[variant] || variantClasses.info
+        }`}
+      >
         {message}
       </div>
     </div>

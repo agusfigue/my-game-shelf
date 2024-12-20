@@ -1,7 +1,6 @@
 import "./App.css";
 import Games from "./components/Games";
 import GameDetails from "./components/GameDetails";
-import Favorites from "./components/Favorites";
 import NavigationMenu from "./components/NavigationMenu";
 import Header from "./components/Header";
 import Lists from "./components/Lists";
@@ -16,7 +15,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Games />} />
         <Route path="/game/:id" element={<GameDetails />} />
-        <Route path="/favorites" element={<Favorites />} />
         <Route path="/lists" element={<Lists />} />
         <Route path="/lists/:listName" element={<ListDetails />} />
         <Route path="/settings" element={<Settings />} />
