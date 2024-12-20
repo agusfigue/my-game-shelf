@@ -26,17 +26,15 @@ const Filters = ({
 
   return (
     <div>
-      <div className="mb-4">
-        <Search
-          placeholder="Search games..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-      </div>
+      <Search
+        placeholder="Search games..."
+        value={searchQuery}
+        onChange={handleSearchChange}
+      />
 
       <div className="mb-4">
         <h4 className="text-white font-semibold mb-2">Genres</h4>
-        <div className="flex gap-2 overflow-x-auto no-scrollbar">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
           {genres.length > 0 ? (
             genres.map((category, i) => (
               <PillFilters
@@ -52,9 +50,9 @@ const Filters = ({
         </div>
       </div>
 
-      <div className="mb-5">
+      <div className="mb-4">
         <h4 className="text-white font-semibold mb-2">Rating</h4>
-        <div className="flex gap-2 overflow-x-auto no-scrollbar">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide whitespace-nowrap">
           {ratingOptions.map((option, i) => (
             <PillFilters
               key={i}

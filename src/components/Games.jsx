@@ -72,7 +72,7 @@ const Games = () => {
   };
 
   return (
-    <section className="flex justify-center items-center mt-12 mb-12 min-h-[calc(100vh-6rem)]">
+    <section className="flex justify-center items-center mt-12 mb-12">
       {fixedMessage && (
         <Message
           variant={fixedMessage.type}
@@ -82,7 +82,7 @@ const Games = () => {
       )}
 
       <div className="w-full max-w-md bg-secondary-dark p-4 rounded-lg">
-        <header className="flex w-full justify-between items-center mb-4">
+        <header className="flex w-full justify-between items-center mb-3">
           <h2 className="text-white text-xl font-bold">
             Swipe games ({games.length})
           </h2>
