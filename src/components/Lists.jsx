@@ -37,17 +37,16 @@ const Lists = () => {
   );
 
   return (
-    <section className="mt-12 mb-12 min-h-[calc(100vh-6rem)] bg-secondary-dark p-4">
-      <div className="flex items-center justify-between mb-6">
-        <Search
-          placeholder="Search for a list..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+    <section className="mt-12 mb-14 min-h-[calc(100vh-6rem)] bg-secondary-dark p-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-white text-xl font-bold">Your Lists</h2>
         <IconButton icon="add" onClick={() => setIsModalOpen(true)} />
       </div>
-
-      <h2 className="text-white text-xl font-bold mb-4">Your Lists</h2>
+      <Search
+        placeholder="Search for a list..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredLists.length > 0 ? (
           filteredLists.map((list, index) => (

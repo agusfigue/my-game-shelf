@@ -45,8 +45,8 @@ const Settings = () => {
   };
 
   return (
-    <section className="mt-12 mb-12 min-h-[calc(100vh-6rem)] bg-secondary-dark p-4 text-white">
-      <h1 className="text-2xl font-bold mb-6">Settings</h1>
+    <section className="mt-14 mb-14 min-h-[calc(100vh-6rem)] bg-secondary-dark p-4 text-white">
+      <h1 className="text-xl font-bold mb-6">Settings</h1>
       <div className="space-y-4">
         <IconButtonText
           icon="restart_alt"
